@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Embodied Turing Machines</title>
+<meta name="description" content="Embodied Turing Machines: Stateful Code for Robot Recursive Self-Improvement. Code-Only-as-Policy: 70.24% success on RoboDojo's 42 bimanual tasks, with no model at test time.">
+<meta property="og:title" content="Embodied Turing Machines">
+<meta property="og:description" content="Code-Only-as-Policy. 70.24% success on RoboDojo's 42 bimanual tasks, with no model at test time.">
+<meta property="og:image" content="https://etmcode-bit.github.io/assets/film/poster.jpg">
+<meta property="og:url" content="https://etmcode-bit.github.io/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0B191B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23102224'/%3E%3Crect x='5' y='12' width='6' height='12' rx='1.5' fill='none' stroke='%23F2F3EE' stroke-width='1.6'/%3E%3Crect x='13' y='12' width='6' height='12' rx='1.5' fill='%23CCFFA0'/%3E%3Crect x='21' y='12' width='6' height='12' rx='1.5' fill='none' stroke='%23F2F3EE' stroke-width='1.6'/%3E%3Cpath d='M12 4h8l-4 5z' fill='%23CCFFA0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400..700&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<div class="bgfx" aria-hidden="true"></div>
+
+<nav class="nav" id="nav" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Embodied Turing Machines, top"><span class="cells" aria-hidden="true"><i></i><i></i><i></i></span>ETM</a>
+    <ul>
+      <li><a href="#video">Video</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#code">Code</a></li>
+      <li><a href="#race">Analysis</a></li>
+      <li><a href="#results">Results</a></li>
+      <li class="o2"><a href="#why">Why code</a></li>
+      <li class="o2"><a href="#rsi">RSI</a></li>
+    </ul>
+    <a class="pill" href="https://arxiv.org/abs/2610.12369" target="_blank" rel="noopener">arXiv</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wall" id="wall" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <h1 class="title"><span class="l1">Embodied</span><span class="l2"><em>Turing</em> Machines</span></h1>
+    <p class="subtitle">Stateful Code for Robot Recursive Self-Improvement</p>
+    <div class="tag">Code-Only-as-Policy</div>
+
+    <div class="tape" id="tape" aria-hidden="true">
+      <div class="track" id="tapeTrack"></div>
+      <div class="head" id="tapeHead"><b id="tapeRule">write</b></div>
+    </div>
+
+    <div class="cta">
+      <a class="btn primary" href="https://arxiv.org/abs/2610.12369" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/></svg>Paper</a>
+      <a class="btn" href="#video"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Video</a>
+    </div>
+
+    <p class="authors">
+      <span>Kairui Hu<sup>1,2,*</sup></span>&ensp; <span>Siyuan Hu<sup>1,*</sup></span>&ensp; <span>Fangzhou Hong<sup>1,2</sup></span>&ensp; <span>Zhaoxi Chen<sup>1,2</sup></span>&ensp; <span>Ziwei Liu<sup>1,2</sup></span>
+      <span class="aff"><sup>1</sup>Nanyang Technological University&ensp;·&ensp;<sup>2</sup>Ropedia&ensp;·&ensp;<sup>*</sup>Equal contribution</span>
+    </p>
+  </div>
+  <div class="scrollcue" aria-hidden="true"><i></i></div>
+</header>
+
+<main>
+
+<section class="block film" id="video">
+  <div class="wrap">
+    <div class="frame rv">
+      <video id="filmVid" data-hls="assets/film/hls/master.m3u8" poster="assets/film/poster.jpg" playsinline preload="none" controls hidden></video>
+      <button class="cover" id="filmCover" type="button" aria-label="Play the video">
+        <img src="assets/film/poster.jpg" alt="" loading="lazy">
+        <span class="play" aria-hidden="true"></span>
+        <span class="len">1:27 · sound on</span>
+      </button>
+    </div>
+    <aside class="note rv" aria-label="A note on this work">
+      <div class="k">A note</div>
+      <p><b>Developed in simulation.</b> Every program was written and debugged on development episodes; benchmark test episodes were never used for development.</p>
+      <p><b>Motivation.</b> This is not an attempt to achieve SOTA on RoboDojo, i.e., it is not meant to hack a benchmark. We hope to offer the community a way to generate trajectories, and a way of thinking about robot problems. We would not like it to be misread as a rival to WAMs, VLAs or agents: we simply want to show how far code-only RSI can go, as one line of thinking for iterating better models.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="block" id="gallery">
+  <div class="wrap">
+    <div class="head2 rv">
+      <h2>One shared library. <em><span class="nw">Cross-episode,</span> <span class="nw">cross-task.</span></em></h2>
+    </div>
+    <div class="filters rv" id="filters" role="group" aria-label="Filter"></div>
+    <div class="reel rv"><div class="marq" id="marq"></div></div>
+  </div>
+</section>
+
+<section class="pillars" aria-label="What code gives">
+  <div class="wrap">
+    <div class="pl rv"><svg viewBox="0 0 40 40" aria-hidden="true"><path class="ic-fast" d="M23 4 9 23h10l-3 13 15-20H21z"/></svg><b>Fast</b><span>No model at runtime.</span></div>
+    <div class="pl rv"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="9" width="30" height="6" rx="2"/><rect x="5" y="17" width="30" height="6" rx="2"/><rect x="5" y="25" width="30" height="6" rx="2"/></svg><b>Stable</b><span>Decisions are code, not samples. Every decision is explicit.</span></div>
+    <div class="pl rv"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="13" width="9" height="14" rx="2"/><rect x="15.5" y="13" width="9" height="14" rx="2"/><rect x="28" y="13" width="9" height="14" rx="2"/><path d="M7.5 9h25" /></svg><b>Cross-episode</b><span>One program for every episode. Fixes carry over.</span></div>
+    <div class="pl rv"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="15" y="15" width="10" height="10" rx="2"/><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="29" y="3" width="8" height="8" rx="2"/><rect x="3" y="29" width="8" height="8" rx="2"/><rect x="29" y="29" width="8" height="8" rx="2"/><path d="M11 11l4 4M29 11l-4 4M11 29l4-4M29 29l-4-4"/></svg><b>Reusable</b><span>Shared library. Easy to extend, reuse and inherit.</span></div>
+    <div class="pl data rv"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 30c6-12 11-16 16-16s9 3 16-8"/><path d="M4 34c7-9 12-12 17-12s9 2 15-6"/><path d="M4 26c5-14 10-20 15-20s10 4 17-2"/></svg><b>Data engine</b><span>Efficient trajectory generation for VLA, Agent-as-Policy and Harness VLA.</span></div>
+  </div>
+</section>
+
+<section class="block" id="code">
+  <div class="wrap">
+    <div class="head2 rv">
+      <h2>The rules are code. <em id="codeKicker">The tape is the state.</em></h2>
+    </div>
+    <div class="bar rv">
+      <div class="tabs" role="tablist" aria-label="Episode" id="caseTabs"></div>
+    </div>
+    <div class="player rv" id="caseP">
+      <div class="code">
+        <div class="file"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><b id="caseFile">cover_blocks.py</b><span>· pseudocode</span><span class="rt">running</span></div>
+        <pre id="caseCode" aria-label="Task program"></pre>
+        <div class="reg" aria-live="off">
+          <div class="t"><span>Recorded state</span><span id="regStep">step 0</span></div>
+          <div id="caseReg"></div>
+        </div>
+      </div>
+      <div class="screen">
+        <div class="view">
+          <video id="caseVid" muted playsinline preload="auto"></video>
+          <div class="ar" id="caseAR"></div>
+          <div class="hud">
+            <div class="row"><span class="chip rec">head camera</span><span class="chip" id="caseStepHud">step 000</span></div>
+            <span class="chip cap" id="caseCap"></span>
+            <div class="banner" id="caseBanner">Hidden from the camera · known from the state</div>
+          </div>
+        </div>
+        <div class="tape2" id="caseTape"></div>
+        <div class="timeline">
+          <button class="pp" id="casePP" type="button" aria-label="Pause"><svg viewBox="0 0 14 14" id="casePPi"><rect x="2" y="1" width="3.5" height="12"/><rect x="8.5" y="1" width="3.5" height="12"/></svg></button>
+          <div class="scrub" id="caseScrub"><div class="rail"><div class="segs" id="caseSegs"></div><div class="fill" id="caseFill"></div></div><input type="range" id="caseRange" min="0" max="397" value="0" aria-label="Episode step"></div>
+          <span class="stepno" id="caseStepNo">0 / 397</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="race">
+  <div class="wrap">
+    <div class="head2 rv">
+      <h2 class="two"><span>No model in the online execution loop.</span> <em>Fast and cheap for data generation.</em></h2>
+    </div>
+    <div class="clip rv">
+      <video id="nmVid" src="assets/race/no_model.mp4" poster="assets/race/no_model.jpg" muted playsinline preload="metadata" aria-label="Five tasks, same layouts: the time each robot waits for its policy, code only and an agent in the loop"></video>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="results">
+  <div class="wrap">
+    <div class="head2 center rv">
+      <h2>How far can <em class="nb">Code-Only-as-Policy</em> go?</h2>
+    </div>
+    <div class="score rv" id="score">
+      <div class="digits" id="digits" aria-label="70.24 percent"></div>
+      <div class="cap"><b>success rate</b> · RoboDojo, 42 bimanual tasks · <b>75.45</b> progress score</div>
+    </div>
+    <div class="dims rv" id="dims"></div>
+  </div>
+</section>
+
+<section class="block" id="why">
+  <div class="wrap">
+    <div class="head2 rv">
+      <h2>White box and <em>controllable.</em></h2>
+    </div>
+    <div class="bento">
+      <div class="card mem rv">
+        <div class="k">Explicit state</div>
+        <div class="viz" aria-hidden="true"><div class="st8"><i></i><i></i><i class="on"></i><i></i><i></i><b>read · write</b></div></div>
+        <p>Every step reads and writes explicit state, never hidden in a model.</p>
+      </div>
+      <div class="card ctl rv">
+        <div class="k">Controllable</div>
+        <div class="viz" aria-hidden="true">
+          <svg viewBox="0 0 300 96" class="back">
+            <path class="ln" d="M24 58H118"/><path class="ln" d="M150 58H178"/><path class="ln ok" d="M208 58H276"/>
+            <path class="arc" d="M196 44C196 10 120 10 120 44"/>
+            <circle class="n" cx="24" cy="58" r="10"/><circle class="n" cx="120" cy="58" r="10"/>
+            <circle class="n x" cx="164" cy="58" r="12"/><text x="164" y="58">✗</text>
+            <circle class="n v" cx="276" cy="58" r="12"/><text x="276" y="58" class="t2">✓</text>
+            <circle class="dot" r="4.5"><animateMotion dur="4s" repeatCount="indefinite" keyPoints="0;0.42;0.42;0.7;1" keyTimes="0;0.35;0.45;0.75;1" calcMode="linear" path="M24 58H164C190 58 196 30 158 22C126 15 120 32 120 46C120 58 160 58 276 58"/></circle>
+            <text x="158" y="6" class="lb">backtrack</text>
+          </svg>
+        </div>
+        <div class="big">76<small>%</small><span>failures caught</span></div>
+        <p>Backtrack and reattempt another way.</p>
+      </div>
+      <div class="card cheap rv">
+        <div class="k">Cheap</div>
+        <div class="viz" aria-hidden="true">
+          <div class="cmp"><span>vs a VLA</span><div class="tr"><i style="width:2.4%"></i></div><b>0.8–2.4%</b></div>
+          <div class="cmp"><span>vs an agent harness</span><div class="tr"><i style="width:.1%"></i></div><b>&lt; 0.1%</b></div>
+        </div>
+        <div class="big">0.3<small> ms</small></div>
+        <p>per control step. No model calls.</p>
+      </div>
+      <div class="card ext rv">
+        <div class="k">Extendable</div>
+        <div class="viz" aria-hidden="true"><svg viewBox="0 0 300 110" class="trend" id="trend"></svg></div>
+        <p>Easy to evolve new tasks.</p>
+      </div>
+      <div class="card data wide rv">
+        <div class="k">Data engine</div>
+        <p>COAP evolves fast, runs fast and works across episodes, so it generates trajectories efficiently for VLA.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="rsi">
+  <div class="wrap">
+    <div class="head2 rv">
+      <h2>Easy to develop <em>through BFS.</em></h2>
+      <p class="lede">Suitable for RSI: white box, efficient and controllable.</p>
+    </div>
+    <div class="tree rv" id="tree">
+      <svg class="links" id="treeLinks" aria-hidden="true"></svg>
+      <div class="root" id="treeRoot"><video src="assets/rsi/state.mp4" poster="assets/rsi/state.jpg" muted loop playsinline preload="none"></video><span>current code</span></div>
+      <div class="branches" id="branches"></div>
+      <div class="deeper" id="deeper">
+        <div class="dec" data-d="2"><span>carry</span><div class="nodes"><i></i><i></i><i></i><i></i></div></div>
+        <div class="dec" data-d="3"><span>hang it</span><div class="nodes"><i></i><i></i><i></i></div></div>
+      </div>
+      <div class="when"><span><b>≈&nbsp;5&nbsp;h</b>3 rounds, branches at once</span><span><b>≈&nbsp;26&nbsp;h</b>15 runs, one after another</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="paper">
+  <div class="wrap">
+    <div class="paper rv">
+      <div>
+        <p class="ptitle">Embodied Turing Machines<span>Stateful Code for Robot Recursive Self-Improvement</span></p>
+        <p class="authors">
+          <span>Kairui Hu<sup>1,2,*</sup></span>&ensp; <span>Siyuan Hu<sup>1,*</sup></span>&ensp; <span>Fangzhou Hong<sup>1,2</sup></span>&ensp; <span>Zhaoxi Chen<sup>1,2</sup></span>&ensp; <span>Ziwei Liu<sup>1,2</sup></span>
+          <span class="aff"><sup>1</sup>Nanyang Technological University&ensp;·&ensp;<sup>2</sup>Ropedia&ensp;·&ensp;<sup>*</sup>Equal contribution</span>
+        </p>
+        <div class="cta" style="justify-content:flex-start">
+          <a class="btn primary" href="https://arxiv.org/abs/2610.12369" target="_blank" rel="noopener">arXiv 2610.12369</a>
+          <a class="btn" href="https://arxiv.org/pdf/2610.12369" target="_blank" rel="noopener">PDF</a>
+        </div>
+        <div class="logos">
+          <img class="ntu" src="assets/img/ntu_dark.png" alt="Nanyang Technological University" width="840" height="302" loading="lazy">
+          <img class="rop" src="assets/img/ropedia_green.png" alt="Ropedia" width="600" height="142" loading="lazy">
+        </div>
+      </div>
+      <div class="bib">
+        <button class="btn copy" type="button" id="copyBib">Copy</button>
+<pre id="bibtex">@article{hu2026embodied,
+  title   = {Embodied Turing Machines: Stateful Code
+             for Robot Recursive Self-Improvement},
+  author  = {Hu, Kairui and Hu, Siyuan and Hong, Fangzhou
+             and Chen, Zhaoxi and Liu, Ziwei},
+  journal = {arXiv preprint arXiv:2610.12369},
+  year    = {2026}
+}</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+  <div class="box">
+    <video id="lbVid" muted playsinline loop controls></video>
+    <div class="info">
+      <div class="k" id="lbKind"></div>
+      <h3 id="lbTitle"></h3>
+      <p id="lbIns"></p>
+      <div class="rate" id="lbSr"></div>
+      <div class="nav2"><button class="btn" type="button" id="lbPrev" aria-label="Previous">←</button><button class="btn" type="button" id="lbNext" aria-label="Next">→</button><button class="btn" type="button" id="lbClose">Close</button></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
