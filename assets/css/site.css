@@ -152,6 +152,12 @@ h2.two > span, h2.two > em { display: block; }
 .film .cover:hover .play { transform: scale(1.06); }
 .film .play::after { content: ""; margin-left: 7px; border-left: 26px solid #0B1406; border-block: 16px solid transparent; }
 .film .cover .len { position: absolute; left: 22px; bottom: 18px; font: 500 13.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #F2F3EE; }
+/* the film runs muted in view; this brings its score in */
+.film .unmute { position: absolute; left: 18px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 13px; border-radius: 999px; cursor: pointer;
+  font: 500 15px/1 var(--sans); color: var(--on-hl); background: var(--hl); border: 0; box-shadow: 0 0 0 6px rgba(204, 255, 160, .16), 0 12px 30px rgba(0, 0, 0, .45); transition: transform .2s var(--ease); }
+.film .unmute:hover { transform: translateY(-1px); }
+.film .unmute svg { width: 18px; height: 18px; flex: none; }
+.film .muted video { cursor: pointer; }
 .note { margin-top: 18px; display: grid; grid-template-columns: 7em repeat(2, minmax(0, 1fr)); gap: 10px 28px; align-items: baseline; padding: 18px 22px; border-radius: 14px; background: var(--glass); border: 1px solid var(--line); border-left: 3px solid var(--accent); }
 .note .k { font: 500 12.5px/1.4 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
 .note p { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--ink-2); }

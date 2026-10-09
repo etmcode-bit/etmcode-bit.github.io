@@ -124,12 +124,42 @@
     };
     document.head.appendChild(s);
   }
+  function withFilm(fn) {
+    if (filmLoaded) return fn();
+    filmLoaded = true; loadFilm(fn);
+  }
   function startFilm() {
     cover.hidden = true; film.hidden = false;
-    if (filmLoaded) return play(film);
-    filmLoaded = true; loadFilm(function () { play(film); });
+    withFilm(function () { play(film); });
   }
   cover.addEventListener('click', startFilm);
+  // the sound is the film's score, so it can run muted while in view; the button brings the score in
+  var unmute = $('#filmUnmute'), frame = film.parentNode, quiet = false;
+  function soundOn() {
+    if (!quiet) return;
+    quiet = false; frame.classList.remove('muted'); unmute.hidden = true;
+    film.muted = false; film.loop = false; film.controls = true; play(film);
+  }
+  if (!reduce && !(navigator.connection && navigator.connection.saveData)) {
+    quiet = true; frame.classList.add('muted');
+    film.muted = true; film.loop = true; film.controls = false;
+    onView(frame, function (v) {
+      if (!quiet) return;
+      if (!v) return film.pause();
+      cover.hidden = true; film.hidden = false; unmute.hidden = false;
+      withFilm(function () {
+        var p = film.play();
+        // autoplay refused (e.g. low power mode): back to the cover, which plays with sound on a tap
+        if (p && p.catch) p.catch(function (e) {
+          if (!e || e.name !== 'NotAllowedError' || !quiet) return;
+          quiet = false; frame.classList.remove('muted'); unmute.hidden = true; film.hidden = true; cover.hidden = false;
+          film.muted = false; film.loop = false; film.controls = true;
+        });
+      });
+    }, { threshold: 0.5 });
+    unmute.addEventListener('click', soundOn);
+    film.addEventListener('click', soundOn);
+  }
 
   /* ---------------------------------------------------------------- code + episode */
   // moments the player stops on: the lines that ran, what they returned, which tape cell was read
