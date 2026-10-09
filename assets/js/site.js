@@ -30,6 +30,24 @@
     if (sec) onView(sec, function (v) { if (v) links.forEach(function (b) { b.classList.toggle('on', b === a); }); }, { rootMargin: '-45% 0px -50% 0px' });
   });
 
+  /* ---------------------------------------------------------------- scrolling */
+  // a playing video makes every frame of a scroll costly (the episode walls fell to 30 fps), so the
+  // decorative ones hold still while the page moves and pick up again once it rests
+  var scrolling = false, stillT = 0, stillFns = [];
+  addEventListener('scroll', function () {
+    if (!scrolling) {
+      scrolling = true;
+      $$('.wall video, .marq video, .tree video').forEach(function (v) { if (!v.paused) { v.pause(); v.dataset.held = '1'; } });
+    }
+    clearTimeout(stillT);
+    stillT = setTimeout(function () {
+      scrolling = false;
+      $$('video[data-held]').forEach(function (v) { delete v.dataset.held; play(v); });
+      stillFns.forEach(function (fn) { fn(); });
+    }, 150);
+  }, { passive: true });
+  function playStill(v) { if (scrolling) v.dataset.held = '1'; else play(v); }
+
   /* ---------------------------------------------------------------- reveal */
   var rio = new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
@@ -57,7 +75,7 @@
     vids.forEach(function (v) { v.muted = true; });
     onView($('.hero'), function (v) {
       wall.classList.toggle('paused', !v);
-      vids.forEach(function (x) { if (v) play(x); else x.pause(); });
+      vids.forEach(function (x) { if (v) playStill(x); else { x.pause(); delete x.dataset.held; } });
     }, { threshold: 0 });
   })();
 
@@ -367,15 +385,21 @@
     var fBox = $('#filters');
     fBox.innerHTML = F.map(function (f, i) { return '<button type="button" aria-pressed="' + (i === 0) + '" data-i="' + i + '">' + f[0] + '<i>' + G.filter(f[1]).length + '</i></button>'; }).join('');
     var marq = $('#marq');
+    // a tile that comes into view mid-scroll gets its video once the page rests
+    function attach(t) {
+      delete t.dataset.want;
+      if ($('video', t) || live >= MAXLIVE) return;
+      var v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.preload = 'auto';
+      v.setAttribute('muted', ''); v.src = 'assets/gallery/' + t.dataset.id + '_s.mp4';
+      t.insertBefore(v, t.firstChild.nextSibling); live++;
+      play(v);
+    }
+    stillFns.push(function () { $$('.tile[data-want]', marq).forEach(attach); });
     var tio = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         var t = e.target, v = $('video', t);
-        if (e.isIntersecting && !v && live < MAXLIVE && !reduce) {
-          v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.preload = 'auto';
-          v.setAttribute('muted', ''); v.src = 'assets/gallery/' + t.dataset.id + '_s.mp4';
-          t.insertBefore(v, t.firstChild.nextSibling); live++;
-          play(v);
-        } else if (!e.isIntersecting && v) { v.pause(); v.removeAttribute('src'); v.load(); v.remove(); live--; }
+        if (e.isIntersecting && !v && !reduce) { if (scrolling) t.dataset.want = '1'; else attach(t); }
+        else if (!e.isIntersecting) { delete t.dataset.want; if (v) { v.pause(); v.removeAttribute('src'); v.load(); v.remove(); live--; } }
       });
     }, { rootMargin: '60px 0px' });
     function tile(g, k) {
@@ -542,8 +566,8 @@
     }
     if (reduce) { tree.classList.add('s1', 's2'); ['d2', 'd3'].forEach(set); return; }
     onView(tree, function (v) {
-      if (v && !on) { on = true; vids.forEach(play); cycle(); }
-      if (!v && on) { on = false; timers.forEach(clearTimeout); timers = []; vids.forEach(function (x) { x.pause(); }); set('s0'); }
+      if (v && !on) { on = true; vids.forEach(playStill); cycle(); }
+      if (!v && on) { on = false; timers.forEach(clearTimeout); timers = []; vids.forEach(function (x) { x.pause(); delete x.dataset.held; }); set('s0'); }
     }, { threshold: 0.25 });
   })();
 
