@@ -348,16 +348,6 @@
     load(D.cases[0]);
   })();
 
-  /* ---------------------------------------------------------------- no model in the loop: that part of the film */
-  (function () {
-    var v = $('#nmVid'), visible = false, hold = 0;
-    v.muted = true;
-    if (reduce) { v.controls = true; return; }
-    // the last frame has the final times: hold it, then play again
-    v.addEventListener('ended', function () { hold = setTimeout(function () { hold = 0; if (visible) play(v); }, 3500); });
-    onView(v, function (on) { visible = on; if (!on) v.pause(); else if (!hold) play(v); }, { threshold: 0.35 });
-  })();
-
   /* ---------------------------------------------------------------- gallery */
   (function () {
     var G = D.gallery, list = G, live = 0, MAXLIVE = 18;
@@ -381,7 +371,7 @@
     function tile(g, k) {
       return '<button class="tile" type="button" data-id="' + g.id + '" data-k="' + k + '" aria-label="' + esc(g.title) + (g.rand ? ', randomized room' : '') + '">' +
         '<img src="assets/gallery/' + g.id + '_s.jpg" alt="" loading="lazy" width="320" height="240">' +
-        '<span class="meta"><b>' + esc(g.title) + '</b><span>' + g.sr.toFixed(g.sr % 1 ? 1 : 0) + '%</span></span></button>';
+        '<span class="meta"><b>' + esc(g.title) + '</b></span></button>';
     }
     function build() {
       tio.disconnect(); live = 0;
@@ -413,7 +403,6 @@
       $('#lbKind').textContent = g.dim + ' · ' + (g.rand ? 'randomized room' : 'standard scene') + ' · ' + g.sec.toFixed(1) + ' s';
       $('#lbTitle').textContent = g.title;
       $('#lbIns').textContent = '“' + g.ins + '”';
-      $('#lbSr').innerHTML = g.sr.toFixed(g.sr % 1 ? 1 : 0) + '%<small>task success rate, official evaluation</small>';
     }
     function openLB(k) { opener = document.activeElement; lb.hidden = false; show(k); $('#lbClose').focus(); }
     function closeLB() { lb.hidden = true; lv.pause(); lv.removeAttribute('src'); lv.load(); if (opener) opener.focus(); }

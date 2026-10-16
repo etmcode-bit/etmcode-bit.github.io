@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Embodied Turing Machines</title>
-<meta name="description" content="Embodied Turing Machines: Stateful Code for Robot Recursive Self-Improvement. Code-Only-as-Policy: 70.24% success on RoboDojo's 42 bimanual tasks, with no model at test time.">
+<meta name="description" content="RopediaA0: Exploring Code-Only-as-Policy for robots.">
 <meta property="og:title" content="Embodied Turing Machines">
-<meta property="og:description" content="Code-Only-as-Policy. 70.24% success on RoboDojo's 42 bimanual tasks, with no model at test time.">
-<meta property="og:image" content="https://etmcode-bit.github.io/assets/film/poster.jpg">
-<meta property="og:url" content="https://etmcode-bit.github.io/">
+<meta property="og:description" content="RopediaA0: Exploring Code-Only-as-Policy for robots.">
+<meta property="og:image" content="https://ropedia.github.io/RopediaA0/assets/film/poster.jpg">
+<meta property="og:url" content="https://ropedia.github.io/RopediaA0/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0B191B">
@@ -27,12 +27,12 @@
     <a class="brand" href="#top" aria-label="Embodied Turing Machines, top"><span class="cells" aria-hidden="true"><i></i><i></i><i></i></span>ETM</a>
     <ul>
       <li><a href="#video">Video</a></li>
+      <li><a href="#explore">Explore</a></li>
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#code">Code</a></li>
-      <li><a href="#race">Analysis</a></li>
       <li><a href="#results">Results</a></li>
       <li class="o2"><a href="#why">Why code</a></li>
-      <li class="o2"><a href="#rsi">RSI</a></li>
+      <li class="o2"><a href="#rsi">Development</a></li>
     </ul>
     <a class="pill" href="https://arxiv.org/abs/2610.12369" target="_blank" rel="noopener">arXiv</a>
   </div>
@@ -75,11 +75,27 @@
         <span class="len">1:27 · sound on</span>
       </button>
     </div>
-    <aside class="note rv" aria-label="A note on this work">
-      <div class="k">A note</div>
-      <p><b>Developed in simulation.</b> Every program was written and debugged on development episodes; benchmark test episodes were never used for development.</p>
-      <p><b>Motivation.</b> This is not an attempt to achieve SOTA on RoboDojo, i.e., it is not meant to hack a benchmark. We hope to offer the community a way to generate trajectories, and a way of thinking about robot problems. We would not like it to be misread as a rival to WAMs, VLAs or agents: we simply want to show how far code-only RSI can go, as one line of thinking for iterating better models.</p>
+    <aside class="note rv" aria-label="About this work">
+      <p>We formulate embodied tasks as SWE problems and explore how far Code-Only-as-Policy can go, analyzing its strengths and limitations. Benchmark results serve to validate the approach, not as the objective. We also view COAP as a complement to model-based methods, as it generates large-scale, controllable trajectories.</p>
     </aside>
+  </div>
+</section>
+
+<section class="block" id="explore">
+  <div class="wrap">
+    <figure class="quote rv">
+      <figcaption class="kick">Embodied Turing Machine &amp; The Exploration of Code-Only-As-Policy (COAP)</figcaption>
+      <blockquote>
+        <p class="q1">How far can code-only policies go?</p>
+        <p>We view the embodied world as an Embodied Turing Machine, whose tape is the robot and environment state and rules are the policy. What if a robot policy didn't need a VLM or VLA in its runtime control loop?</p>
+        <p>We want to explore the limit of a different paradigm: Can code-only-as-policy go surprisingly far in embodied intelligence? Where does it work, and where does it break?</p>
+      </blockquote>
+    </figure>
+    <ul class="points rv">
+      <li><b>Data engine.</b> Given offline time, coding agents iterate on a reusable code library. A working program then generates diverse trajectories efficiently and at scale for policy training.</li>
+      <li><b>Stable, fast execution.</b> Decisions are explicit code, and no model is queried at run time, so execution is stable, fast and cheap. This suits industrial settings where the state can be measured reliably.</li>
+      <li><b>Generalization trade-off.</b> Zero-shot generalization is difficult for code and generally calls for an agent in the loop. Code, however, is reusable: with offline development, it extends to new tasks and scenes.</li>
+    </ul>
   </div>
 </section>
 
@@ -141,27 +157,20 @@
   </div>
 </section>
 
-<section class="block" id="race">
-  <div class="wrap">
-    <div class="head2 rv">
-      <h2 class="two"><span>No model in the online execution loop.</span> <em>Fast and cheap for data generation.</em></h2>
-    </div>
-    <div class="clip rv">
-      <video id="nmVid" src="assets/race/no_model.mp4" poster="assets/race/no_model.jpg" muted playsinline preload="metadata" aria-label="Five tasks, same layouts: the time each robot waits for its policy, code only and an agent in the loop"></video>
-    </div>
-  </div>
-</section>
-
 <section class="block" id="results">
   <div class="wrap">
     <div class="head2 center rv">
-      <h2>How far can <em class="nb">Code-Only-as-Policy</em> go?</h2>
+      <h2>One benchmark, <em class="nb">as an example.</em></h2>
     </div>
     <div class="score rv" id="score">
       <div class="digits" id="digits" aria-label="70.24 percent"></div>
       <div class="cap"><b>success rate</b> · RoboDojo, 42 bimanual tasks · <b>75.45</b> progress score</div>
+      <div class="cap sub">about <b>2.2×</b> the best success rate on the public leaderboard (31.38%) · self-evaluated</div>
     </div>
     <div class="dims rv" id="dims"></div>
+    <aside class="note rv" aria-label="About these results">
+      <p>These results validate the approach; ranking is not the objective. All programs were developed on development episodes in simulation; test episodes were never used.</p>
+    </aside>
   </div>
 </section>
 
@@ -194,10 +203,6 @@
       </div>
       <div class="card cheap rv">
         <div class="k">Cheap</div>
-        <div class="viz" aria-hidden="true">
-          <div class="cmp"><span>vs a VLA</span><div class="tr"><i style="width:2.4%"></i></div><b>0.8–2.4%</b></div>
-          <div class="cmp"><span>vs an agent harness</span><div class="tr"><i style="width:.1%"></i></div><b>&lt; 0.1%</b></div>
-        </div>
         <div class="big">0.3<small> ms</small></div>
         <p>per control step. No model calls.</p>
       </div>
@@ -217,8 +222,8 @@
 <section class="block" id="rsi">
   <div class="wrap">
     <div class="head2 rv">
-      <h2>Easy to develop <em>through BFS.</em></h2>
-      <p class="lede">Suitable for RSI: white box, efficient and controllable.</p>
+      <h2>Developed offline <em>by coding agents.</em></h2>
+      <p class="lede">A coding agent tries several approaches in parallel and keeps the one that works.</p>
     </div>
     <div class="tree rv" id="tree">
       <svg class="links" id="treeLinks" aria-hidden="true"></svg>
@@ -228,7 +233,6 @@
         <div class="dec" data-d="2"><span>carry</span><div class="nodes"><i></i><i></i><i></i><i></i></div></div>
         <div class="dec" data-d="3"><span>hang it</span><div class="nodes"><i></i><i></i><i></i></div></div>
       </div>
-      <div class="when"><span><b>≈&nbsp;5&nbsp;h</b>3 rounds, branches at once</span><span><b>≈&nbsp;26&nbsp;h</b>15 runs, one after another</span></div>
     </div>
   </div>
 </section>
@@ -275,7 +279,6 @@
       <div class="k" id="lbKind"></div>
       <h3 id="lbTitle"></h3>
       <p id="lbIns"></p>
-      <div class="rate" id="lbSr"></div>
       <div class="nav2"><button class="btn" type="button" id="lbPrev" aria-label="Previous">←</button><button class="btn" type="button" id="lbNext" aria-label="Next">→</button><button class="btn" type="button" id="lbClose">Close</button></div>
     </div>
   </div>
